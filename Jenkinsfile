@@ -8,9 +8,10 @@ pipeline {
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_VERSION="v_${BUILD_NUMBER}"
         GIT_URL="https://github.com/kanmigbajobi/jenkins-pipeline-demo-pwa"
-        REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com'
-        SBT_OPTS='-Xmx1024m -Xms512m'
-        JAVA_OPTS='-Xmx1024m -Xms512m'
+        DEV_REGION='eu-west-2'
+        PROD_REGION='eu-west-3'
+        ACCOUNT_NUMBER='781056228461'
+        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.aws.com"
         /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
@@ -104,6 +105,7 @@ pipeline {
             }
             steps {
                 echo "Deploy to QA..."
+
             }
         }
         stage('Deploy - UAT') {

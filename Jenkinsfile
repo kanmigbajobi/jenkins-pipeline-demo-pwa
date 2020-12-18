@@ -4,7 +4,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'jenkins-pipeline-demo-pwa'
+        APP_NAME = 'jenkins'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_VERSION="v_${BUILD_NUMBER}"
         GIT_URL="https://github.com/kanmigbajobi/jenkins-pipeline-demo-pwa"

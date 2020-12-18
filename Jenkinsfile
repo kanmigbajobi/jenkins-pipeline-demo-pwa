@@ -75,7 +75,7 @@ pipeline {
             #}
         #}
         */
-        stage('Docker Tag & Push') {
+        /*stage('Docker Tag & Push') {
              steps {
                  script {
                      branchName = getCurrentBranch()
@@ -91,10 +91,23 @@ pipeline {
                  }
              }
          }
-
+         */
         stage('Deploy - CI') {
             steps {
                 echo "Deploying to CI Environment."
+                script {
+                     branchName = getCurrentBranch()
+                     shortCommitHash = getShortCommitHash()
+                     IMAGE_VERSION = "${BUILD_NUMBER}-" + branchName + "-" + shortCommitHash
+                     sh 'eval $(aws ecr get-login --no-include-email --region eu-west-2)'
+                     //sh "docker-compose build"
+                     sh "docker tag ${REPOURL}/${APP_NAME}:latest ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
+                     sh "docker push ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
+                     sh "docker push ${REPOURL}/${APP_NAME}:latest"
+
+                     sh "docker rmi ${REPOURL}/${APP_NAME}:${IMAGE_VERSION} ${REPOURL}/${APP_NAME}:latest"
+                }
+         
             }
         }
 

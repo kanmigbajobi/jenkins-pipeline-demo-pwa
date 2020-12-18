@@ -80,7 +80,7 @@ pipeline {
                      shortCommitHash = getShortCommitHash()
                      IMAGE_VERSION = "${BUILD_NUMBER}-" + branchName + "-" + shortCommitHash
                      sh 'eval $(aws ecr get-login --no-include-email --region eu-west-2)'
-                     sh "docker-compose build"
+                     //sh "docker-compose build"
                      sh "docker tag ${REPOURL}/${APP_NAME}:latest ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
                      sh "docker push ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
                      sh "docker push ${REPOURL}/${APP_NAME}:latest"

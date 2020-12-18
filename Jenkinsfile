@@ -54,9 +54,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'npm install'
-                sh 'ng lint'
-                sh 'ng build --prod'
+                sh 'docker buld .'
+               
             }
         }
        /* #stage('Static Code Coverage Analysis') {

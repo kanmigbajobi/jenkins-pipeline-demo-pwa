@@ -1,7 +1,6 @@
 FROM nginx:1.15.0-alpine
-
-COPY nginx-client.template /etc/nginx/nginx.conf
-COPY server-client.template /etc/nginx/conf.d/server.conf
-COPY dist /usr/share/nginx/html
-
-EXPOSE 80 443
+RUN yum -y install httpd
+COPY index.html /var/www/html/
+ENTRYPOINT [ "/usr/sbin/httpd" ]
+CMD  [ "-D", "FOREGROUND" ]
+EXPOSE 80

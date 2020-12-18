@@ -54,7 +54,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build ${REPOURL}/${APP_NAME} .'
+                sh 'docker build -t  ${REPOURL}/${APP_NAME} .'
                
             }
         }

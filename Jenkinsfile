@@ -75,7 +75,7 @@ pipeline {
             #}
         #}
         */
-        /*stage('Docker Tag & Push') {
+        stage('Docker Tag & Push') {
              steps {
                  script {
                      branchName = getCurrentBranch()
@@ -91,11 +91,22 @@ pipeline {
                  }
              }
          }
-         */
+
         stage('Deploy - CI') {
             steps {
                 echo "Deploying to CI Environment."
-                script {
+            }
+        }
+
+        stage('Deploy - QA') {
+            when {
+                expression {
+                    params.DEPLOY_QA == true
+                }
+            }
+            steps { 
+                echo "Deploying to QA"
+                 script {
                      branchName = getCurrentBranch()
                      shortCommitHash = getShortCommitHash()
                      IMAGE_VERSION = "${BUILD_NUMBER}-" + branchName + "-" + shortCommitHash
@@ -107,20 +118,11 @@ pipeline {
 
                      sh "docker rmi ${REPOURL}/${APP_NAME}:${IMAGE_VERSION} ${REPOURL}/${APP_NAME}:latest"
                 }
-         
+                
             }
-        }
+           
 
-        stage('Deploy - QA') {
-            when {
-                expression {
-                    params.DEPLOY_QA == true
-                }
-            }
-            steps {
-                echo "Deploy to QA..."
-
-            }
+            
         }
         stage('Deploy - UAT') {
             when {

@@ -7,7 +7,7 @@ pipeline {
         APP_NAME = 'jenkins-pipeline-demo-pwa'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_VERSION="v_${BUILD_NUMBER}"
-        GIT_URL="git@github:kanmigbajobi/${APP_NAME}.git"
+        GIT_URL="https://github.com/kanmigbajobi/jenkins-pipeline-demo-pwa"
         REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com/jenkins'
         SBT_OPTS='-Xmx1024m -Xms512m'
         JAVA_OPTS='-Xmx1024m -Xms512m'
@@ -236,7 +236,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
     */
 
     if (buildStatus == 'FAILURE') {
-        emailext attachLog: true, body: summary, compressLog: true, recipientProviders: [brokenTestsSuspects(), brokenBuildSuspects(), culprits()], replyTo: 'noreply@yourdomain.com', subject: subject, to: 'mpatel@yourdomain.com'
+        emailext attachLog: true, body: summary, compressLog: true, recipientProviders: [brokenTestsSuspects(), brokenBuildSuspects(), culprits()], replyTo: 'g.sunkanmi01@yahoo.com', subject: subject, to: 'g.sunkanmi01@yahoo.com'
     }
 }
 

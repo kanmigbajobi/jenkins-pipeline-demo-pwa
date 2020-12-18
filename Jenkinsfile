@@ -75,7 +75,7 @@ pipeline {
             #}
         #}
         */
-        stage('Docker Tag & Push') {
+        /*stage('Docker Tag & Push') {
              steps {
                  script {
                      branchName = getCurrentBranch()
@@ -91,7 +91,7 @@ pipeline {
                  }
              }
          }
-
+        */
         stage('Deploy - CI') {
             steps {
                 echo "Deploying to CI Environment."

@@ -60,15 +60,7 @@ pipeline {
             
 
         stage('Build') {
-            steps {
-                if (${params.SPECIFIER} == 'dev'){
-                   REPOURL ==  "${DEV_REPOURL}"
-             }
-             else if (${params.SPECIFIER} == 'master'){
-                    REPOURL ==  "${PROD_REPOURL}"
-
-            }
-
+          
             sh 'docker build -t  ${REPOURL}/${APP_NAME} .'
                
             }

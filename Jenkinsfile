@@ -3,24 +3,18 @@
 pipeline {
 
     agent {
-      docker {
-        image 'jenkinsslave:latest'
-        registryUrl 'http://8598567586.dkr.ecr.us-west-2.amazonaws.com'
-        registryCredentialsId 'ecr:us-east-1:3435443545-5546566-567765-3225'
-        args '-v /home/centos/.ivy2:/home/jenkins/.ivy2:rw -v jenkins_opt:/usr/local/bin/opt -v jenkins_apijenkins:/home/jenkins/config -v jenkins_logs:/var/logs -v jenkins_awsconfig:/home/jenkins/.aws --privileged=true -u jenkins:jenkins'
-      }
+      any
     }
     environment {
         APP_NAME = 'jenkins-pipeline-demo-pwa'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_VERSION="v_${BUILD_NUMBER}"
-        GIT_URL="git@github.yourdomain.com:mpatel/${APP_NAME}.git"
-        GIT_CRED_ID='izleka2IGSTDK+MiYOG3b3lZU9nYxhiJOrxhlaJ1gAA='
-        REPOURL = 'cL5nSDa+49M.dkr.ecr.us-east-1.amazonaws.com'
+        GIT_URL="git@github:kanmigbajobi/${APP_NAME}.git"
+        REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com/jenkins'
         SBT_OPTS='-Xmx1024m -Xms512m'
         JAVA_OPTS='-Xmx1024m -Xms512m'
-        WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
-        WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
+        #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
+        #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
         HIPCHAT_TOKEN = 'SpVaURsSTcWaHKulZ6L4L+sjKxhGXCkjSbcqzL42ziU='
         HIPCHAT_ROOM = 'NotificationRoomName'
     }
@@ -32,7 +26,7 @@ pipeline {
         timeout time:10, unit:'MINUTES'
     }
     parameters {
-        string(defaultValue: "develop", description: 'Branch Specifier', name: 'SPECIFIER')
+        string(defaultValue: "dev", description: 'Branch Specifier', name: 'SPECIFIER')
         booleanParam(defaultValue: false, description: 'Deploy to QA Environment ?', name: 'DEPLOY_QA')
         booleanParam(defaultValue: false, description: 'Deploy to UAT Environment ?', name: 'DEPLOY_UAT')
         booleanParam(defaultValue: false, description: 'Deploy to PROD Environment ?', name: 'DEPLOY_PROD')
@@ -65,27 +59,27 @@ pipeline {
                 sh 'ng build --prod'
             }
         }
-        stage('Static Code Coverage Analysis') {
-            parallel {
-              stage('Execute Whitesource Analysis') {
-                  steps {
-                      whitesource jobApiToken: '', jobCheckPolicies: 'global', jobForceUpdate: 'global', libExcludes: '', libIncludes: '', product: "$WS_PRODUCT_TOKEN", productVersion: '', projectToken: "$WS_PROJECT_TOKEN", requesterEmail: ''
-                  }
-              }
-              stage('SonarQube analysis') {
-                  steps {
-                      sh "/usr/bin/sonar-scanner"
-                  }
-              }
-            }
-        }
-         stage('Docker Tag & Push') {
+        #stage('Static Code Coverage Analysis') {
+         #   parallel {
+          #    stage('Execute Whitesource Analysis') {
+           #       steps {
+            #          whitesource jobApiToken: '', jobCheckPolicies: 'global', jobForceUpdate: 'global', libExcludes: '', libIncludes: '', product: "$WS_PRODUCT_TOKEN", productVersion: '', projectToken: "$WS_PROJECT_TOKEN", requesterEmail: ''
+             #     }
+              #}
+              #stage('SonarQube analysis') {
+               #   steps {
+                #      sh "/usr/bin/sonar-scanner"
+                 # }
+              #}
+            #}
+        #}
+        stage('Docker Tag & Push') {
              steps {
                  script {
                      branchName = getCurrentBranch()
                      shortCommitHash = getShortCommitHash()
                      IMAGE_VERSION = "${BUILD_NUMBER}-" + branchName + "-" + shortCommitHash
-                     sh 'eval $(aws ecr get-login --no-include-email --region us-east-1)'
+                     sh 'eval $(aws ecr get-login --no-include-email --region eu-west-2)'
                      sh "docker-compose build"
                      sh "docker tag ${REPOURL}/${APP_NAME}:latest ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
                      sh "docker push ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"

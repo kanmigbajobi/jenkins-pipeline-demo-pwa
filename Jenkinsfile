@@ -1,9 +1,8 @@
 
 pipeline {
 
-    agent {
-      any
-    }
+    agent any
+
     environment {
         APP_NAME = 'jenkins-pipeline-demo-pwa'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"

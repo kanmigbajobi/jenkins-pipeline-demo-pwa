@@ -230,8 +230,10 @@ def notifyBuild(String buildStatus = 'STARTED') {
     }
 
     // Send notifications
+    /*
     hipchatSend(color: color, notify: true, message: summary, token: "${env.HIPCHAT_TOKEN}",
         failOnError: true, room: "${env.HIPCHAT_ROOM}", sendAs: 'Jenkins', textFormat: true)
+    */
 
     if (buildStatus == 'FAILURE') {
         emailext attachLog: true, body: summary, compressLog: true, recipientProviders: [brokenTestsSuspects(), brokenBuildSuspects(), culprits()], replyTo: 'noreply@yourdomain.com', subject: subject, to: 'mpatel@yourdomain.com'

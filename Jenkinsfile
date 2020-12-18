@@ -11,7 +11,7 @@ pipeline {
         DEV_REGION='eu-west-2'
         PROD_REGION='eu-west-3'
         ACCOUNT_NUMBER='781056228461'
-        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.aws.com"
+        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.amazonaws.com"
         /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='

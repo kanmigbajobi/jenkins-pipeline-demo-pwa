@@ -8,7 +8,7 @@ pipeline {
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_VERSION="v_${BUILD_NUMBER}"
         GIT_URL="https://github.com/kanmigbajobi/jenkins-pipeline-demo-pwa"
-        REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com/jenkins'
+        REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com'
         SBT_OPTS='-Xmx1024m -Xms512m'
         JAVA_OPTS='-Xmx1024m -Xms512m'
         /*

@@ -12,8 +12,10 @@ pipeline {
         REPOURL = '781056228461.dkr.ecr.eu-west-2.amazonaws.com/jenkins'
         SBT_OPTS='-Xmx1024m -Xms512m'
         JAVA_OPTS='-Xmx1024m -Xms512m'
+        /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
+        */
         HIPCHAT_TOKEN = 'SpVaURsSTcWaHKulZ6L4L+sjKxhGXCkjSbcqzL42ziU='
         HIPCHAT_ROOM = 'NotificationRoomName'
     }

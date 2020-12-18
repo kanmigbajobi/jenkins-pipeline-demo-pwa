@@ -10,7 +10,7 @@ pipeline {
         DEV_REGION='eu-west-2'
         PROD_REGION='eu-west-3'
         ACCOUNT_NUMBER='781056228461'
-        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.amazonaws.com"
+        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${PROD_REGION}.amazonaws.com"
         /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
@@ -132,8 +132,22 @@ pipeline {
             }
             steps {
                 echo "Deploy to UAT..."
+                script {
+                     branchName = getCurrentBranch()
+                     shortCommitHash = getShortCommitHash()
+                     IMAGE_VERSION = "${BUILD_NUMBER}-" + branchName + "-" + shortCommitHash
+                     sh 'eval $(aws ecr get-login --no-include-email --region eu-west-3)'
+                     //sh "docker-compose build"
+                     sh "docker tag ${REPOURL}/${APP_NAME}:latest ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
+                     sh "docker push ${REPOURL}/${APP_NAME}:${IMAGE_VERSION}"
+                     sh "docker push ${REPOURL}/${APP_NAME}:latest"
+
+                     sh "docker rmi ${REPOURL}/${APP_NAME}:${IMAGE_VERSION} ${REPOURL}/${APP_NAME}:latest"
+                }
+                
             }
         }
+
         stage('Deploy - Production') {
             when {
                 expression {

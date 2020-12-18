@@ -58,7 +58,7 @@ pipeline {
                 sh 'ng build --prod'
             }
         }
-        #stage('Static Code Coverage Analysis') {
+       /* #stage('Static Code Coverage Analysis') {
          #   parallel {
           #    stage('Execute Whitesource Analysis') {
            #       steps {
@@ -72,6 +72,7 @@ pipeline {
               #}
             #}
         #}
+        */
         stage('Docker Tag & Push') {
              steps {
                  script {

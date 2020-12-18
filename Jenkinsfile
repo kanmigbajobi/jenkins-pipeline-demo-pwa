@@ -15,9 +15,9 @@ pipeline {
         /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
-        */
         HIPCHAT_TOKEN = 'SpVaURsSTcWaHKulZ6L4L+sjKxhGXCkjSbcqzL42ziU='
         HIPCHAT_ROOM = 'NotificationRoomName'
+        */
     }
 
     options {
@@ -27,7 +27,7 @@ pipeline {
         timeout time:10, unit:'MINUTES'
     }
     parameters {
-        string(defaultValue: "develop", description: 'Branch Specifier', name: 'SPECIFIER')
+        string(defaultValue: '', description: 'Branch Specifier', name: 'SPECIFIER')
         booleanParam(defaultValue: false, description: 'Deploy to QA Environment ?', name: 'DEPLOY_QA')
         booleanParam(defaultValue: false, description: 'Deploy to UAT Environment ?', name: 'DEPLOY_UAT')
         booleanParam(defaultValue: false, description: 'Deploy to PROD Environment ?', name: 'DEPLOY_PROD')
@@ -50,9 +50,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checkout Repo'
+                echo "${params.SPECIFIER}"
                 git branch: "${params.SPECIFIER}", url: "${GIT_URL}"
             }
         }
+
         stage('Build') {
             steps {
                 sh 'docker build -t  ${REPOURL}/${APP_NAME} .'

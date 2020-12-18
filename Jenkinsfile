@@ -1,4 +1,3 @@
-
 pipeline {
 
     agent any
@@ -11,9 +10,7 @@ pipeline {
         DEV_REGION='eu-west-2'
         PROD_REGION='eu-west-3'
         ACCOUNT_NUMBER='781056228461'
-        REPOURL=''
-        DEV_REPOURL ="${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.amazonaws.com"
-        PROD_REPOURL="${ACCOUNT_NUMBER}.dkr.ecr.${PROD_REGION}.amazonaws.com"
+        REPOURL = "${ACCOUNT_NUMBER}.dkr.ecr.${DEV_REGION}.amazonaws.com"
         /*
         #WS_PRODUCT_TOKEN='FJbep9fKLeJa/Cwh7IJbL0lPfdYg7q4zxvALAxWPLnc='
         #WS_PROJECT_TOKEN='zwzxtyeBntxX4ixHD1iE2dOr4DVFHPp7D0Czn84DEF4='
@@ -57,11 +54,9 @@ pipeline {
             }
         }
 
-            
-
         stage('Build') {
-          
-            sh 'docker build -t  ${REPOURL}/${APP_NAME} .'
+            steps {
+                sh 'docker build -t  ${REPOURL}/${APP_NAME} .'
                
             }
         }
@@ -246,4 +241,3 @@ def notifyBuild(String buildStatus = 'STARTED') {
         emailext attachLog: true, body: summary, compressLog: true, recipientProviders: [brokenTestsSuspects(), brokenBuildSuspects(), culprits()], replyTo: 'g.sunkanmi01@yahoo.com', subject: subject, to: 'g.sunkanmi01@yahoo.com'
     }
 }
-
